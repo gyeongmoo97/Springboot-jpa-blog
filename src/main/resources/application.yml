@@ -1,7 +1,39 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/blog3?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
-debug: true
+    
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+#     처음이라서 생성하고 나중에는 create 아닌 update 로 해야함.
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#   .PhysicalNamingStrategy 엔티티 즉 테이블을 만들때 변수명 그대로 테이블의 필드를 만든다는 이야기임 
+#  spring 피지컬 네이밍 스트레티지 사용하면
+      use-new-id-generator-mappings: false
+#     jap의 디폴트 넘버링 전략에 따르지 않는다는의미의 false 임
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
