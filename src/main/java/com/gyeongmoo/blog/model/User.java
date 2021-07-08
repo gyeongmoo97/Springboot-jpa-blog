@@ -5,16 +5,28 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //테이블을 위해서 엔티티 어노테이션을 붙혀야 한다.
 @Entity // User클래스가 자동으로 MySQL에 생성된다.
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+//@DynamicInsert // null값인 칼럼을 제외시키고 insert 해주는 어노테이션임
 public class User {
 	@Id //primary Key 인것을 알려주기 위함
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +43,10 @@ public class User {
 	@Column(nullable = false, length = 100)
 	private String email; // 
 	
-	@ColumnDefault("'user'")
-	@Column(nullable = false, length = 77)
-	private String role; //
+//	@ColumnDefault("'user'")
+	//DB는 RoleType이라는게 없어서 따로 알려줘야함
+	@Enumerated(EnumType.STRING)
+	private RoleType role; //
 	//이넘을 쓰는게 좋다. 
 	
 	@CreationTimestamp // 이 어노테이션을 사용하면 시간이 자동으로 입력됨

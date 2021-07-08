@@ -2,6 +2,7 @@ package com.gyeongmoo.blog.model;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment
@@ -41,8 +52,14 @@ public class Board {
 	@JoinColumn(name="userId")
 	//필드값은 userId로 만들어지고 연관관계는 manytoone으로 만들어진다
 	//자동으로 User객체를 FK로 이어준다.
-	
 	private User user;
+	
+	@OneToMany(mappedBy = "board")//mappedBy 연관관계의 주인이 아님을 알려줌 
+	//즉 FK가 아니라서 DB에 칼럼을 만들지말라는의미 JPA를 통한 Join을 위해서만 변수를 선언하기위해
+	//mappedBy를 사용한다. 
+	//board 는 Reply에 사용된 Board board 와 같은것이다. 
+	//Reply에 Board aaa로 선언되면 mappedBy = "aaa" 로 적으면 된다.
+	private List<Reply> reply;
 	
 	@CreationTimestamp
 	private Timestamp createDate;
