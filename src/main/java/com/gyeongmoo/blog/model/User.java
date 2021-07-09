@@ -34,8 +34,8 @@ public class User {
 	
 	
 	private int id; // 시퀀스로 auto_increment 하는 전략 사용
-	
-	@Column(nullable=false, length = 100)
+	// unique = true 를통해 유일한 값가지게 할 수 있다.
+	@Column(nullable=false, length = 100, unique = true)
 	private String username; // ID
 	
 	@Column(nullable = false, length = 100)
